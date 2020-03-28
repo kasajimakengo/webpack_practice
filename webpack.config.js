@@ -4,17 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
   mode: 'production',
-  entry: './src/javascripts/main.js',
+  // devtool: 'eval-source-map',
+  entry: {
+    main: './src/javascripts/main.js',
+  },
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'javascripts/[name]-[hash]]',
+    filename: 'javascripts/[name]-[hash].js',
   },
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: [
           {
@@ -23,14 +25,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.js/,
-        exclude: /node_moduled/,
+        test: /\.(js|jsx)/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader',
             options: {
               presets: [
-                ['@babel/preset-env', { 'targets': '> 0.25%, not dead' }],
+                ['@babel/preset-env', { "targets": "> 0.25%, not dead" }],
                 '@babel/preset-react',
               ],
             },
@@ -38,31 +40,29 @@ module.exports = {
         ],
       },
       {
-        test: /\.(css|sass|scss)/,
+        test: /\.(css|scss|sass)$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: 'css-loader',
-            options: {
-              sourceMap: false,
-            },
+            options: { sourceMap: true },
           },
           {
             loader: 'sass-loader',
-          }
+          },
         ],
       },
       {
-        test: /\.(png|jpg|jpeg)/,
+        test: /\.(png|jpg|jpeg)$/i,
         use: [
           {
             loader: 'file-loader',
             options: {
               esModule: false,
               name: 'images/[name]-[hash].[ext]',
-              publicPath: '/'
+              publicPath: '/',
             },
           },
           {
@@ -71,8 +71,8 @@ module.exports = {
               mozjpeg: {
                 progressive: true,
                 quality: 65,
-              }
-            }
+              },
+            },
           },
         ],
       },
@@ -94,7 +94,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'stylesheets/[name]-[hash].css'
+      filename: './stylesheets/[name]-[hash].css',
     }),
     new HtmlWebpackPlugin({
       template: './src/templates/index.pug',
@@ -105,8 +105,8 @@ module.exports = {
       filename: 'access.html',
     }),
     new HtmlWebpackPlugin({
-      template: './src/templates/menbers/taro.pug',
-      filename: 'menbers/taro.html',
+      template: './src/templates/members/taro.pug',
+      filename: 'members/taro.html',
     }),
     new CleanWebpackPlugin(),
   ],
