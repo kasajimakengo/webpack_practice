@@ -15,8 +15,8 @@ const AppContainer = styled.div`
 const App = (props) => {
   return (
     <AppContainer>
-      <p>Hello, React App!!!!!!</p>
-      <Alert message="Success!" />
+      <p>世の中金じゃ！</p>
+      <Alert message="金をくれ！！！" />
     </AppContainer>
   );
 };
